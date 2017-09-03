@@ -1,36 +1,26 @@
 const electron = require('electron');
-
 const { app, BrowserWindow, Menu, ipcMain } = electron;
+
+const MainWindow = require('./app/main_window');
+const SubWindow = require('./app/sub_window');
+const AuthorWindow = require('./app/autor_window');
 
 let mainWindow;
 let subWindow;
 let authorWindow;
 
 app.on('ready', ()=> {
-  mainWindow = new BrowserWindow({});
-  mainWindow.loadURL(`file://${__dirname}/main.html`);
-  mainWindow.on('closed', () => app.quit());
-
+  mainWindow = new MainWindow(`file://${__dirname}/main.html`);
   const mainMenu = Menu.buildFromTemplate(menuTemplate);
   Menu.setApplicationMenu(mainMenu);
 });
 
 function createSubWindow() {
-  subWindow = new BrowserWindow({
-    width: 300,
-    height: 350
-  });
-  subWindow.loadURL(`file://${__dirname}/sub.html`);
-  subWindow.on('closed', () => subWindow = null);
+  subWindow = new SubWindow(`file://${__dirname}/sub.html`);
 }
 
 function createAuthorWindow() {
-  authorWindow = new BrowserWindow({
-    width: 200,
-    height: 200
-  });
-  authorWindow.loadURL(`file://${__dirname}/author.html`);
-  authorWindow.on('closed', () => authorWindow = null);
+  authorWindow = new AuthorWindow(`file://${__dirname}/author.html`);
 }
 
 // Create sub window
