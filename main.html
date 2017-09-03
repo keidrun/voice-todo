@@ -2,17 +2,25 @@
 <html>
 <head>
   <meta charset="UTF-8">
+  <link rel="stylesheet" href="vendors/css/material.deep-red.min.css">
+  <link rel="stylesheet" href="vendors/css/animate.css">
+  <link rel="stylesheet" href="css/todo-window.css">
   <title>Voice Todo!</title>
 </head>
 <body>
-  <h1>Todos</h1>
+  <div class="window-main">
 
-  <button id="add-todo">Add</button>
-  <button id="clear-all">Clear All</button>
-  <button id="speech-all">Speech</button>
+    <h1 class="animated rubberBand">Todos</h1>
 
-  <ul></ul>
+    <button id="add-todo" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Add</button>
+    <button id="clear-all" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Clear All</button>
+    <button id="speech-all" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Speech</button>
 
+    <ul class="mdl-list"></ul>
+
+  </div>
+
+  <script defer src="vendors/js/material.min.js"></script>
   <script>
     const electron = require('electron');
     const { ipcRenderer } = electron;
@@ -22,6 +30,8 @@
     const clearAll = document.getElementById('clear-all');
     const speechAll = document.getElementById('speech-all');
 
+    let speechLang = 'ja-JP';
+
     // Create sub window
     add.addEventListener('click', (event) => {
       ipcRenderer.send('sub:create');
@@ -29,7 +39,13 @@
 
     // Clear all todos
     clearAll.addEventListener('click', (event) => {
-      list.innerHTML = '';
+      list.classList.add('animated');
+      list.classList.add('hinge');
+      list.addEventListener('animationend', (event) => {
+        list.innerHTML = '';
+        list.classList.remove('animated');
+        list.classList.remove('hinge');
+      });
     });
 
     // Add new todo
@@ -38,6 +54,7 @@
         return;
       }
       const li = document.createElement('li');
+      li.classList.add('todo-list');
       const text = document.createTextNode(todo);
       li.appendChild(text);
       li.addEventListener('click', removeTodo);
@@ -47,7 +64,12 @@
     // Remove todo
     function removeTodo(event) {
       const clickedLi = event.target;
-      clickedLi.parentNode.removeChild(clickedLi);
+      clickedLi.classList.add('animated');
+      clickedLi.classList.add('zoomOutRight');
+      clickedLi.addEventListener('animationend', (event) => {
+        event.stopPropagation();
+        clickedLi.parentNode.removeChild(clickedLi);
+      });
     }
 
     // Speech todos
@@ -68,7 +90,7 @@
                       });
       todos.forEach((todo) => {
         const message = new SpeechSynthesisUtterance(todo);
-        message.lang = 'ja-JP';
+        message.lang = speechLang;
         synth.speak(message);
       });
     });

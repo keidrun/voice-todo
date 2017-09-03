@@ -2,22 +2,28 @@
 <html>
 <head>
   <meta charset="UTF-8">
+  <link rel="stylesheet" href="vendors/css/material.deep-red.min.css">
+  <link rel="stylesheet" href="css/todo-window.css">
   <title>Add Todo</title>
 </head>
 <body>
+  <div class="window-sub">
 
   <!-- <div id="speech">
-    <img id="speech-image" src="img/microphone_off.svg">
+    <img id="speech-image" src="img/microphone_off.svg" width="250">
   </div> -->
 
-  <form>
-    <div>
-      <label>Todo: </label>
-      <input autofocus />
-    </div>
-    <button type="submit">Add</button>
-  </form>
+    <form>
+      <div class="mdl-textfield mdl-js-textfield">
+        <input autofocus class="todo-text mdl-textfield__input" type="text">
+        <label class="todo-text mdl-textfield__label">New Todo...</label>
+      </div>
+      <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Add</button>
+    </form>
 
+  </div>
+
+  <script defer src="vendors/js/material.min.js"></script>
   <script>
     const electron = require('electron');
     const { ipcRenderer } = electron;
@@ -25,6 +31,8 @@
     // TODO: Fix after Google restart providing web speech api.
     // const addTodoViaSpeech = document.getElementById('speech');
     // const speechImage = document.getElementById('speech-image');
+    // let speechLang = 'ja-JP';
+
     const addTodoForm = document.querySelector('form');
 
     // // Set-up Web Speech Recognition
@@ -38,7 +46,7 @@
     //   recognition = new webkitSpeechRecognition();
     //   recognition.continuous = true;
     //   recognition.interimResults = true;
-    //   recognition.lang = 'ja-JP';
+    //   recognition.lang = speechLang;
     //   recognition.maxAlternatives = 1;
 
     //   // Listening

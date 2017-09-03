@@ -1,0 +1,18 @@
+/* MainWindow */
+.window-main {
+  margin-left: 40px;
+}
+.todo-list {
+  font-size: 40px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+/* SubWindow */
+.window-sub {
+  margin-top: 20px;
+  margin-left: 25px;
+}
+.todo-text {
+  width: 250px;
+}
