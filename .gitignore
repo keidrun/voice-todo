@@ -17,6 +17,9 @@ lib-cov
 # Coverage directory used by tools like istanbul
 coverage
 
+# build dir
+build
+
 # npm
 package-lock.json
 

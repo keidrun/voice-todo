@@ -4,12 +4,16 @@
   "description": "Voice Todo Desktop Application",
   "main": "index.js",
   "scripts": {
-    "electron": "electron ."
+    "electron": "NODE_ENV=development electron .",
+    "production": "electron .",
+    "build": "electron-packager . 'Voice todo!' --platform=darwin,win32 --arch=x64 --version=1.7.5 --icon=./img/icon.icns --out=./build --overwrite",
+    "cleanup": "rm -rf ./build"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "electron": "^1.7.5"
+    "electron": "^1.7.5",
+    "electron-packager": "^9.0.1"
   }
 }
