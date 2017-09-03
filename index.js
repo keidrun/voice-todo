@@ -18,7 +18,7 @@ app.on('ready', ()=> {
 function createSubWindow() {
   subWindow = new BrowserWindow({
     width: 300,
-    height: 300
+    height: 350
   });
   subWindow.loadURL(`file://${__dirname}/sub.html`);
   subWindow.on('closed', () => subWindow = null);

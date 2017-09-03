@@ -46,19 +46,30 @@
 
     // Remove todo
     function removeTodo(event) {
-      var clickedLi = event.target;
+      const clickedLi = event.target;
       clickedLi.parentNode.removeChild(clickedLi);
     }
 
     // Speech todos
+    if (!('SpeechSynthesisUtterance' in window)) {
+      // Disable speech button.
+      speechAll.style.display='none';
+    }
+    const synth = window.speechSynthesis;
     speechAll.addEventListener('click', (event) => {
-      const todos = Array.prototype.slice.call(document.getElementsByTagName('li'))
+      // Cancel when doble click.
+      if ( synth.speaking ) {
+        synth.cancel();
+        return;
+      }
+      const todos = Array.from(document.getElementsByTagName('li'))
                       .map(function(todo){
                         return todo.firstChild.nodeValue;
                       });
-      todos.forEach(function(todo) {
+      todos.forEach((todo) => {
         const message = new SpeechSynthesisUtterance(todo);
-        window.speechSynthesis.speak(message);
+        message.lang = 'ja-JP';
+        synth.speak(message);
       });
     });
 

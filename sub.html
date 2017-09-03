@@ -2,12 +2,17 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Add Todo via Voice</title>
+  <title>Add Todo</title>
 </head>
 <body>
+
+  <!-- <div id="speech">
+    <img id="speech-image" src="img/microphone_off.svg">
+  </div> -->
+
   <form>
     <div>
-      <label>Enter your todo</label>
+      <label>Todo: </label>
       <input autofocus />
     </div>
     <button type="submit">Add</button>
@@ -17,8 +22,67 @@
     const electron = require('electron');
     const { ipcRenderer } = electron;
 
-    // Add new todo
-    document.querySelector('form').addEventListener('submit', (event) => {
+    // TODO: Fix after Google restart providing web speech api.
+    // const addTodoViaSpeech = document.getElementById('speech');
+    // const speechImage = document.getElementById('speech-image');
+    const addTodoForm = document.querySelector('form');
+
+    // // Set-up Web Speech Recognition
+    // let recognition;
+    // if (!('webkitSpeechRecognition' in window)) {
+    //   // Disable speech image
+    // } else {
+    //   // Disable input form
+    //   addTodoForm.style.display='none';
+
+    //   recognition = new webkitSpeechRecognition();
+    //   recognition.continuous = true;
+    //   recognition.interimResults = true;
+    //   recognition.lang = 'ja-JP';
+    //   recognition.maxAlternatives = 1;
+
+    //   // Listening
+    //   recognition.onstart = () => {
+    //     speechImage.src = 'img/microphone_on.svg';
+    //   };
+
+    //   // Done
+    //   recognition.onend = () => {
+    //     speechImage.src = 'img/microphone_off.svg';
+    //   };
+
+    //   // Get Result
+    //   recognition.onresult = (event) => {
+    //     console.log('aaaaaaaaa')
+    //     if (typeof(event.results) === 'undefined') {
+    //       recognition.stop();
+    //       return;
+    //     }
+
+    //     for (var i = event.resultIndex; i < event.results.length; ++i) {
+    //       if (event.results[i].isFinal) {
+    //         console.log("final results: " + event.results[i][0].transcript);
+    //       } else {
+    //         console.log("interim results: " + event.results[i][0].transcript);
+    //       }
+    //     }
+    //   };
+
+    //   // Handle Error
+    //   recognition.onerror = function(e) {
+    //     recognition.stop();
+    //     console.error(e);
+    //   }
+
+    // }
+
+    // // Add new todo on speech
+    // addTodoViaSpeech.addEventListener('click', (event) => {
+    //   recognition.start();
+    // });
+
+    // Add new todo on form
+    addTodoForm.addEventListener('submit', (event) => {
       event.preventDefault();
 
       const { value } = document.querySelector('input');
