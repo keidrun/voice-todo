@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Voice Todo!</title>
+</head>
+<body>
+  <h1>Todos</h1>
+
+  <button id="add-todo">Add</button>
+  <button id="clear-all">Clear All</button>
+  <button id="speech-all">Speech</button>
+
+  <ul></ul>
+
+  <script>
+    const electron = require('electron');
+    const { ipcRenderer } = electron;
+
+    const list = document.querySelector('ul');
+    const add = document.getElementById('add-todo');
+    const clearAll = document.getElementById('clear-all');
+    const speechAll = document.getElementById('speech-all');
+
+    // Create sub window
+    add.addEventListener('click', (event) => {
+      ipcRenderer.send('sub:create');
+    });
+
+    // Clear all todos
+    clearAll.addEventListener('click', (event) => {
+      list.innerHTML = '';
+    });
+
+    // Add new todo
+    ipcRenderer.on('todo:add', (event, todo) => {
+      if (todo.trim() === '') {
+        return;
+      }
+      const li = document.createElement('li');
+      const text = document.createTextNode(todo);
+      li.appendChild(text);
+      li.addEventListener('click', removeTodo);
+      list.appendChild(li);
+    });
+
+    // Remove todo
+    function removeTodo(event) {
+      var clickedLi = event.target;
+      clickedLi.parentNode.removeChild(clickedLi);
+    }
+
+    // Speech todos
+    speechAll.addEventListener('click', (event) => {
+      const todos = Array.prototype.slice.call(document.getElementsByTagName('li'))
+                      .map(function(todo){
+                        return todo.firstChild.nodeValue;
+                      });
+      todos.forEach(function(todo) {
+        const message = new SpeechSynthesisUtterance(todo);
+        window.speechSynthesis.speak(message);
+      });
+    });
+
+  </script>
+</body>
+</html>

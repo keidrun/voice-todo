@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Add Todo via Voice</title>
+</head>
+<body>
+  <form>
+    <div>
+      <label>Enter your todo</label>
+      <input autofocus />
+    </div>
+    <button type="submit">Add</button>
+  </form>
+
+  <script>
+    const electron = require('electron');
+    const { ipcRenderer } = electron;
+
+    // Add new todo
+    document.querySelector('form').addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const { value } = document.querySelector('input');
+      ipcRenderer.send('todo:add', value);
+    });
+
+  </script>
+</body>
+</html>
