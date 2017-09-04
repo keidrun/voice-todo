@@ -1,6 +1,8 @@
 process.env.NODE_ENV = process.env.NODE_ENV || 'production';
 
 const electron = require('electron');
+const storage = require('electron-storage');
+
 const { app, BrowserWindow, Menu, ipcMain } = electron;
 
 const MainWindow = require('./app/main_window');
@@ -25,12 +27,42 @@ function createAuthorWindow() {
   authorWindow = new AuthorWindow(`file://${__dirname}/author.html`);
 }
 
-// Create sub window
+function saveDataToStorage(todos) {
+  const obj = { todos: todos };
+  const json = JSON.stringify(obj);
+  storage.set('storage/todos.json', json, (err) => {
+    if (err) {
+      console.error(err);
+    }
+  });
+}
+
+function loadDataFromStorage() {
+  storage.get('storage/todos.json', (err, obj) => {
+    if (err) {
+      console.error(err);
+    } else {
+      mainWindow.webContents.send('data:load', obj.todos);
+    }
+  });
+}
+
+// load data.
+ipcMain.on('data:load', (event) => {
+  loadDataFromStorage();
+});
+
+// Save data.
+ipcMain.on('data:save', (event, todos) => {
+  saveDataToStorage(todos);
+});
+
+// Create sub window.
 ipcMain.on('sub:create', (event) => {
   createSubWindow()
 });
 
-// Add new todo
+// Add new todo.
 ipcMain.on('todo:add', (event, todo) => {
   mainWindow.webContents.send('todo:add', todo);
   subWindow.close();
@@ -41,7 +73,7 @@ const menuTemplate = [
     label: 'Help',
     submenu: [
       {
-        label: 'Author',
+        label: 'About App',
         click() { createAuthorWindow(); }
       },
       {
@@ -55,12 +87,12 @@ const menuTemplate = [
   }
 ];
 
-// Adjust Menu for Mac
+// Adjust Menu for Mac.
 if (process.platform === 'darwin') {
   menuTemplate.unshift({});
 }
 
-// For Developer
+// For Developer.
 if (process.env.NODE_ENV !== 'production') {
   menuTemplate.push({
     label: 'Develop',

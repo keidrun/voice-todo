@@ -3,7 +3,10 @@ const { BrowserWindow, app } = electron;
 
 class MainWindow extends BrowserWindow {
   constructor(url) {
-    super({});
+    super({
+      width: 350,
+      height: 600
+    });
     this.loadURL(url);
     this.on('closed', this.onClosed.bind(this));
   }

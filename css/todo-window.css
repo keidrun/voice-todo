@@ -1,11 +1,14 @@
 /* MainWindow */
 .window-main {
   margin-left: 40px;
+  margin-right: 40px;
 }
 .todo-list {
+  word-break: break-all;
+  line-height:3.5em;
+}
+.todo-item {
   font-size: 40px;
-  margin-top: 20px;
-  margin-bottom: 20px;
 }
 
 /* SubWindow */
@@ -15,4 +18,9 @@
 }
 .todo-text {
   width: 250px;
+}
+
+/* AutorWindow */
+.window-autor {
+  margin-left: 25px;
 }

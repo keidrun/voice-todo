@@ -20,3 +20,9 @@ Or
 $ npm run build
 $ open build/Voice\ todo\!-darwin-x64/Voice\ todo\!.app
 ```
+
+## NOTE
+Your todos are saved in the following file.
+```
+/Users/yourname/Library/Application\ Support/voice-todo/storage/todos.json
+```

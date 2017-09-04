@@ -2,6 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
+  <link rel="stylesheet" href="vendors/iconfont/material-icons.css">
   <link rel="stylesheet" href="vendors/css/material.deep-red.min.css">
   <link rel="stylesheet" href="vendors/css/animate.css">
   <link rel="stylesheet" href="css/todo-window.css">
@@ -16,7 +17,7 @@
     <button id="clear-all" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Clear All</button>
     <button id="speech-all" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Speech</button>
 
-    <ul class="mdl-list"></ul>
+    <ul class="todo-list mdl-list"></ul>
 
   </div>
 
@@ -32,12 +33,32 @@
 
     let speechLang = 'ja-JP';
 
-    // Create sub window
+    // Restore todos when this window began.
+    loadData();
+    function loadData() {
+      ipcRenderer.send('data:load');
+    }
+    ipcRenderer.on('data:load', (event, todos) => {
+      todos.forEach((todo) => {
+        addTodoElement(todo);
+      });
+    });
+
+    // Save todos.
+    function saveData() {
+      const todos = Array.from(document.getElementsByTagName('li'))
+                      .map((todo) => {
+                        return todo.firstChild.nodeValue;
+                      });
+      ipcRenderer.send('data:save', todos);
+    }
+
+    // Create sub window.
     add.addEventListener('click', (event) => {
       ipcRenderer.send('sub:create');
     });
 
-    // Clear all todos
+    // Clear all todos.
     clearAll.addEventListener('click', (event) => {
       list.classList.add('animated');
       list.classList.add('hinge');
@@ -45,34 +66,54 @@
         list.innerHTML = '';
         list.classList.remove('animated');
         list.classList.remove('hinge');
+        saveData();
       });
     });
 
-    // Add new todo
+    // Add new todo.
     ipcRenderer.on('todo:add', (event, todo) => {
       if (todo.trim() === '') {
         return;
       }
-      const li = document.createElement('li');
-      li.classList.add('todo-list');
-      const text = document.createTextNode(todo);
-      li.appendChild(text);
-      li.addEventListener('click', removeTodo);
-      list.appendChild(li);
+      addTodoElement(todo);
+      saveData();
     });
 
-    // Remove todo
-    function removeTodo(event) {
-      const clickedLi = event.target;
-      clickedLi.classList.add('animated');
-      clickedLi.classList.add('zoomOutRight');
-      clickedLi.addEventListener('animationend', (event) => {
+    // Remove todo element.
+    function removeTodoElement(event) {
+      const clickedInDiv = event.target.parentNode;
+      clickedInDiv.classList.add('animated');
+      clickedInDiv.classList.add('zoomOutRight');
+      clickedInDiv.addEventListener('animationend', (event) => {
         event.stopPropagation();
-        clickedLi.parentNode.removeChild(clickedLi);
+        clickedInDiv.remove();
+        saveData();
       });
     }
 
-    // Speech todos
+    // Add todo element.
+    function addTodoElement(todo) {
+      const div = document.createElement('div');
+      div.classList.add('mdl-list__item');
+
+      const icon = document.createElement('i');
+      const iconText = document.createTextNode('star');
+      icon.classList.add('material-icons');
+      icon.appendChild(iconText);
+
+      const li = document.createElement('li');
+      li.classList.add('todo-item');
+      const text = document.createTextNode(todo);
+      li.appendChild(text);
+
+      div.appendChild(icon);
+      div.appendChild(li);
+      div.addEventListener('click', removeTodoElement);
+
+      list.appendChild(div);
+    }
+
+    // Speech todos.
     if (!('SpeechSynthesisUtterance' in window)) {
       // Disable speech button.
       speechAll.style.display='none';
@@ -85,7 +126,7 @@
         return;
       }
       const todos = Array.from(document.getElementsByTagName('li'))
-                      .map(function(todo){
+                      .map((todo) => {
                         return todo.firstChild.nodeValue;
                       });
       todos.forEach((todo) => {
