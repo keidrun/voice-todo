@@ -16,8 +16,16 @@
     <button id="add-todo" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Add</button>
     <button id="clear-all" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Clear All</button>
     <button id="speech-all" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Speech</button>
+    <div id="speech-lang-select" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select getmdl-select__fullwidth">
+      <input id="speech-lang" class="mdl-textfield__input" type="text" value="English(US)" readonly tabIndex="-1">
+      <label for="speech-lang" class="mdl-textfield__label">Language</label>
+      <ul for="speech-lang" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
+        <li id="en_us" class="mdl-menu__item">English(US)</li>
+        <li id="en_gb" class="mdl-menu__item">English(UK)</li>
+        <li id="ja_jp" class="mdl-menu__item">Japanese</li>
+      </ul>
 
-    <ul class="todo-list mdl-list"></ul>
+    <ul id="todo-list" class="todo-list mdl-list"></ul>
 
   </div>
 
@@ -26,15 +34,34 @@
     const electron = require('electron');
     const { ipcRenderer } = electron;
 
-    const list = document.querySelector('ul');
+    const list = document.querySelector('ul#todo-list');
+    const speechLangList = document.querySelectorAll('div#speech-lang-select ul li');
     const add = document.getElementById('add-todo');
     const clearAll = document.getElementById('clear-all');
     const speechAll = document.getElementById('speech-all');
 
-    let speechLang = 'ja-JP';
+    const speechLangMap = { en_us: { lang: 'en-US', name: 'English(US)' },
+                            en_gb: { lang: 'en-GB', name: 'English(UK)' },
+                            ja_jp: { lang: 'ja-JP', name: 'Japanese' }};
+    let speechLang = speechLangMap['en-US'];
 
-    // Restore todos when this window began.
+    // Do when this window began.
     loadData();
+    initSelecBox();
+
+    // Initialize select box of languages.
+    function initSelecBox() {
+      speechLangList.forEach((lang)=> {
+        lang.addEventListener('click', (event) => {
+          const lang = event.target;
+          const text = document.createTextNode(lang);
+          speechLang = speechLangMap[lang.id].lang;
+          document.querySelector('input#speech-lang').value = speechLangMap[lang.id].name;
+        });
+      });
+    }
+
+    // Restore todos.
     function loadData() {
       ipcRenderer.send('data:load');
     }
@@ -46,7 +73,7 @@
 
     // Save todos.
     function saveData() {
-      const todos = Array.from(document.getElementsByTagName('li'))
+      const todos = Array.from(document.querySelectorAll('ul#todo-list li'))
                       .map((todo) => {
                         return todo.firstChild.nodeValue;
                       });
@@ -125,7 +152,7 @@
         synth.cancel();
         return;
       }
-      const todos = Array.from(document.getElementsByTagName('li'))
+      const todos = Array.from(document.querySelectorAll('ul#todo-list li'))
                       .map((todo) => {
                         return todo.firstChild.nodeValue;
                       });
