@@ -6,7 +6,7 @@
   "scripts": {
     "electron": "NODE_ENV=development electron .",
     "production": "electron .",
-    "build": "electron-packager . 'Voice todo!' --platform=darwin,win32 --arch=x64 --version=1.7.5 --icon=./img/icon.icns --out=./build --overwrite",
+    "build": "electron-packager . 'Voice Todos !' --platform=darwin,win32 --arch=x64 --version=1.7.5 --icon=./img/icon.icns --out=./build --overwrite",
     "cleanup": "rm -rf ./build"
   },
   "keywords": [],

@@ -6,12 +6,12 @@
   <link rel="stylesheet" href="vendors/css/material.deep-red.min.css">
   <link rel="stylesheet" href="vendors/css/animate.css">
   <link rel="stylesheet" href="css/todo-window.css">
-  <title>Voice Todo!</title>
+  <title>Voice Todos !</title>
 </head>
 <body>
   <div class="window-main">
 
-    <h1 class="animated rubberBand">Todos</h1>
+    <h2 class="animated rubberBand">Voice Todos !</h1>
 
     <button id="add-todo" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Add</button>
     <button id="clear-all" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Clear All</button>
@@ -24,6 +24,7 @@
         <li id="en_gb" class="mdl-menu__item">English(UK)</li>
         <li id="ja_jp" class="mdl-menu__item">Japanese</li>
       </ul>
+    </div>
 
     <ul id="todo-list" class="todo-list mdl-list"></ul>
 
@@ -43,7 +44,7 @@
     const speechLangMap = { en_us: { lang: 'en-US', name: 'English(US)' },
                             en_gb: { lang: 'en-GB', name: 'English(UK)' },
                             ja_jp: { lang: 'ja-JP', name: 'Japanese' }};
-    let speechLang = speechLangMap['en-US'];
+    let speechLang = speechLangMap['en_us'].lang;
 
     // Do when this window began.
     loadData();

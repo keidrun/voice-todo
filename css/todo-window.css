@@ -1,14 +1,17 @@
-/* MainWindow */
+body {
+  background-color: rgba(255, 199, 0, 0.10);
+}
+
 .window-main {
   margin-left: 40px;
   margin-right: 40px;
 }
 .todo-list {
   word-break: break-all;
-  line-height:3.5em;
+  line-height:2.0em;
 }
 .todo-item {
-  font-size: 40px;
+  font-size: 25px;
 }
 
 /* SubWindow */

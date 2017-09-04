@@ -1,13 +1,13 @@
 # voice-todo
-Voice Todo Desktop Application.
+Voice Todos Desktop Application.
 
 ## Description
-The app provides simple todos but it has interesting point. It's "Voice". 
-You can input a your todo to speak it throgh your laptop. 
+The app provides simple todos but it has a interesting point. It's "Voice".
+You can input a your todo to speak it throgh your laptop.
 The app speaks your todos after you completed them.
 
 ## Screen Shot
-![Voice Todo](https://user-images.githubusercontent.com/12680679/30004009-f9ec1d42-90f9-11e7-9065-78e2c2213244.png "Voice Todo")
+![Voice Todos !](https://user-images.githubusercontent.com/12680679/30031811-95259902-91c5-11e7-9aeb-9e4019657d8d.png "Voice Todos !")
 
 ## Let's start!
 ```
@@ -15,14 +15,19 @@ $ git clone https://github.com/keidrun/voice-todo.git
 $ cd voice-todo
 $ npm run production
 ```
-Or
+Or on Mac
 ```
 $ npm run build
-$ open build/Voice\ todo\!-darwin-x64/Voice\ todo\!.app
+$ open build/Voice\ Todos\ \!-darwin-x64/Voice\ Todos\ \!.app
+```
+Or on Windows
+```
+> npm run build
+> &"build\Voice Todos !-win32-x64\Voice Todos !.exe"
 ```
 
 ## NOTE
-Your todos are saved in the following file.
+Your todos are saved in the following file on Mac.
 ```
-/Users/yourname/Library/Application\ Support/voice-todo/storage/todos.json
+/Users/yourusername/Library/Application\ Support/voice-todo/storage/todos.json
 ```
