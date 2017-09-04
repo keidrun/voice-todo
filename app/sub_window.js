@@ -5,7 +5,8 @@ class SubWindow extends BrowserWindow {
   constructor(url) {
     super({
       width: 300,
-      height: 350
+      height: 350,
+      resizable: false
     });
     this.loadURL(url);
     this.on('closed', this.onClosed.bind(this));

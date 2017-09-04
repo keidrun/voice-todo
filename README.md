@@ -7,7 +7,7 @@ You can input a your todo to speak it throgh your laptop.
 The app speaks your todos after you completed them.
 
 ## Screen Shot
-![Voice Todos !](https://user-images.githubusercontent.com/12680679/30031811-95259902-91c5-11e7-9aeb-9e4019657d8d.png "Voice Todos !")
+![Voice Todos !](https://user-images.githubusercontent.com/12680679/30033840-5e802db2-91d0-11e7-8a43-2040321c00f2.png "Voice Todos !")
 
 ## Let's start!
 ```

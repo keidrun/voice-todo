@@ -5,7 +5,8 @@ class AutorWindow extends BrowserWindow {
   constructor(url) {
     super({
       width: 200,
-      height: 200
+      height: 200,
+      resizable: false
     });
     this.loadURL(url);
     this.on('closed', this.onClosed.bind(this));

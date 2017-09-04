@@ -14,17 +14,17 @@ let subWindow;
 let authorWindow;
 
 app.on('ready', ()=> {
-  mainWindow = new MainWindow(`file://${__dirname}/main.html`);
+  mainWindow = new MainWindow(`file://${__dirname}/html/main.html`);
   const mainMenu = Menu.buildFromTemplate(menuTemplate);
   Menu.setApplicationMenu(mainMenu);
 });
 
 function createSubWindow() {
-  subWindow = new SubWindow(`file://${__dirname}/sub.html`);
+  subWindow = new SubWindow(`file://${__dirname}/html/sub.html`);
 }
 
 function createAuthorWindow() {
-  authorWindow = new AuthorWindow(`file://${__dirname}/author.html`);
+  authorWindow = new AuthorWindow(`file://${__dirname}/html/author.html`);
 }
 
 function saveDataToStorage(todos) {

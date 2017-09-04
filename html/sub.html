@@ -2,15 +2,15 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="vendors/css/material.deep-red.min.css">
-  <link rel="stylesheet" href="css/todo-window.css">
+  <link rel="stylesheet" href="../vendors/css/material.deep-red.min.css">
+  <link rel="stylesheet" href="../css/todo-window.css">
   <title>Add Todo</title>
 </head>
 <body>
   <div class="window-sub">
 
   <!-- <div id="speech">
-    <img id="speech-image" src="img/microphone_off.svg" width="250">
+    <img id="speech-image" src="../img/microphone_off.svg" width="250">
   </div> -->
 
     <form>
@@ -23,7 +23,7 @@
 
   </div>
 
-  <script defer src="vendors/js/material.min.js"></script>
+  <script defer src="../vendors/js/material.min.js"></script>
   <script>
     const electron = require('electron');
     const { ipcRenderer } = electron;
@@ -51,12 +51,12 @@
 
     //   // Listening
     //   recognition.onstart = () => {
-    //     speechImage.src = 'img/microphone_on.svg';
+    //     speechImage.src = '../img/microphone_on.svg';
     //   };
 
     //   // Done
     //   recognition.onend = () => {
-    //     speechImage.src = 'img/microphone_off.svg';
+    //     speechImage.src = '../img/microphone_off.svg';
     //   };
 
     //   // Get Result
