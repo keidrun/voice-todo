@@ -3,7 +3,7 @@ Voice Todos Desktop Application.
 
 ## Description
 The app provides simple todos but it has a interesting point. It's "Voice".
-You can input a your todo to speak it throgh your laptop.
+You can input your todo to speak it throgh your laptop.
 The app speaks your todos after you completed them.
 
 ## Screen Shot
