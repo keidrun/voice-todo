@@ -1,7 +1,7 @@
 {
   "name": "voice-todo",
   "version": "0.0.1",
-  "description": "Voice Todo Desktop Application",
+  "description": "Voice Todos Desktop Application",
   "main": "index.js",
   "scripts": {
     "electron": "NODE_ENV=development electron .",
@@ -10,7 +10,7 @@
     "cleanup": "rm -rf ./build"
   },
   "keywords": [],
-  "author": "",
+  "author": "Keid",
   "license": "MIT",
   "dependencies": {
     "electron": "^1.7.5",
