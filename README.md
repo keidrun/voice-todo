@@ -1,2 +1,3 @@
-# voice-todo
-Voice Todo Desktop Application.
+# speak-sentences
+
+Speak Sentences

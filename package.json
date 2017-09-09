@@ -1,15 +1,20 @@
 {
-  "name": "voice-todo",
-  "version": "0.0.1",
-  "description": "Voice Todo Desktop Application",
+  "name": "speak-sentences",
+  "version": "0.0.0",
+  "description": "Speak Sentences",
   "main": "index.js",
   "scripts": {
-    "electron": "electron ."
+    "electron": "NODE_ENV=development electron .",
+    "production": "NODE_ENV=production electron .",
+    "build":
+      "electron-packager . 'SpeakSentences' --platform=darwin,win32 --arch=x64 --version=1.7.5 --icon=./img/icon.icns --out=./build --overwrite",
+    "cleanup": "rm -rf ./build"
   },
   "keywords": [],
-  "author": "",
+  "author": "Keid",
   "license": "MIT",
   "dependencies": {
     "electron": "^1.7.5"
-  }
+  },
+  "devDependencies": {}
 }

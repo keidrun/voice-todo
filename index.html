@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Speak Sentences</title>
+</head>
+
+<body>
+  <h1>Speak Sentences</h1>
+
+  <button id="input-sentence">Input</button>
+  <button id="clear-sentences">Clear</button>
+  <button id="speak-sentences">Speak/Stop</button>
+
+  <div id="sentences"></div>
+
+  <script>
+    const electron = require('electron');
+    const { ipcRenderer } = electron;
+
+    const sentences = document.getElementById('sentences');
+    const insert = document.getElementById('input-sentence');
+    const clear = document.getElementById('clear-sentences');
+    const speak = document.getElementById('speak-sentences');
+
+    // Request a main window.
+    insert.addEventListener('click', (event) => {
+      ipcRenderer.send('inputWindow:create');
+    });
+
+    // Clear sentences.
+    clear.addEventListener('click', (event) => {
+      sentences.innerHTML = '';
+    });
+
+    // Insert sentence.
+    ipcRenderer.on('sentence:insert', (event, sentence) => {
+      if (sentence.trim() === '') {
+        return;
+      }
+      const text = document.createTextNode(sentence);
+      const p = document.createElement('p');
+      p.appendChild(text);
+      sentences.appendChild(p);
+    });
+
+    // Speak sentences through SpeechSynthesis in Web Speech API.
+    const synth = window.speechSynthesis;
+    speak.addEventListener('click', (event) => {
+      // Stop.
+      if (synth.speaking) {
+        synth.cancel();
+        return;
+      }
+      // Speak.
+      console.log(document.querySelectorAll('#sentences p'));
+      const sentences = Array.from(document.querySelectorAll('#sentences p'))
+        .map((sentence) => {
+          return sentence.firstChild.nodeValue;
+        });
+      sentences.forEach((sentence) => {
+        const message = new SpeechSynthesisUtterance(sentence);
+        message.lang = 'ja-JP';
+        synth.speak(message);
+      });
+    });
+  </script>
+</body>
+
+</html>
