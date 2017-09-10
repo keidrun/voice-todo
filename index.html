@@ -54,7 +54,6 @@
         return;
       }
       // Speak.
-      console.log(document.querySelectorAll('#sentences p'));
       const sentences = Array.from(document.querySelectorAll('#sentences p'))
         .map((sentence) => {
           return sentence.firstChild.nodeValue;

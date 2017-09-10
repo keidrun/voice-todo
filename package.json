@@ -1,5 +1,6 @@
 {
   "name": "speak-sentences",
+  "productName": "SpeakSentences",
   "version": "0.0.0",
   "description": "Speak Sentences",
   "main": "index.js",
@@ -7,7 +8,7 @@
     "electron": "NODE_ENV=development electron .",
     "production": "NODE_ENV=production electron .",
     "build":
-      "electron-packager . 'SpeakSentences' --platform=darwin,win32 --arch=x64 --version=1.7.5 --icon=./img/icon.icns --out=./build --overwrite",
+      "electron-packager . --platform=darwin,win32 --arch=x64 --icon=./img/icon.icns --out=./build --overwrite",
     "cleanup": "rm -rf ./build"
   },
   "keywords": [],
