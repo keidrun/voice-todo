@@ -59,7 +59,7 @@ const menuTemplate = [
 // }
 
 // Show Developer Tools
-if (process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV === "development") {
   menuTemplate.push({
     label: "Develop",
     submenu: [
