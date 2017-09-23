@@ -8,10 +8,8 @@ class MainWindow extends BrowserWindow {
       height: 600
     };
     if (env === "production") {
-      range.push({
-        minWidth: 350,
-        maxWidth: 350
-      });
+      range.minWidth = 350;
+      range.maxWidth = 350;
     }
     super(range);
     this.loadURL(url);

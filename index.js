@@ -1,4 +1,6 @@
 process.env.NODE_ENV = process.env.NODE_ENV || "production";
+const config = require("./config");
+process.env.GOOGLE_API_KEY = config.googleApiKey;
 
 const electron = require("electron");
 const storage = require("electron-storage");

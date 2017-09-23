@@ -41,7 +41,7 @@
     // Set-up Web Speech Recognition
     let recognition;
     let isListening = false;
-    if (!('webkitSpeechRecognition' in window)) {
+    if (process.env.GOOGLE_API_KEY === 'undefined' || !('webkitSpeechRecognition' in window)) {
       addTodoViaSpeech.style.display = 'none';
     } else {
       addTodoForm.style.display = 'none';

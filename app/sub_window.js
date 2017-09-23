@@ -8,9 +8,7 @@ class SubWindow extends BrowserWindow {
       height: 400
     };
     if (env === "production") {
-      range.push({
-        resizable: false
-      });
+      range.resizable = false;
     }
     super(range);
     this.loadURL(url);
