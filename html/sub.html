@@ -1,17 +1,21 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="../vendors/css/material.deep-red.min.css">
   <link rel="stylesheet" href="../css/todo-window.css">
   <title>Add Todo</title>
 </head>
+
 <body>
   <div class="window-sub">
 
-  <!-- <div id="speech">
-    <img id="speech-image" src="../img/microphone_off.svg" width="250">
-  </div> -->
+    <div id="speech">
+      <img id="speech-image" src="../img/microphone_off.svg" width="250">
+      <p></p>
+      <button id="speech-button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Add</button>
+    </div>
 
     <form>
       <div class="mdl-textfield mdl-js-textfield">
@@ -26,77 +30,100 @@
   <script defer src="../vendors/js/material.min.js"></script>
   <script>
     const electron = require('electron');
-    const { ipcRenderer } = electron;
+    const { ipcRenderer, remote } = electron;
 
-    // TODO: Fix after Google restart providing web speech api.
-    // const addTodoViaSpeech = document.getElementById('speech');
-    // const speechImage = document.getElementById('speech-image');
-    // let speechLang = 'ja-JP';
-
+    const addTodoViaSpeech = document.getElementById('speech');
+    const speechImage = document.getElementById('speech-image');
+    const speechP = document.querySelector('#speech p');
+    const speechButton = document.getElementById('speech-button');
     const addTodoForm = document.querySelector('form');
 
-    // // Set-up Web Speech Recognition
-    // let recognition;
-    // if (!('webkitSpeechRecognition' in window)) {
-    //   // Disable speech image
-    // } else {
-    //   // Disable input form
-    //   addTodoForm.style.display='none';
+    // Set-up Web Speech Recognition
+    let recognition;
+    let isListening = false;
+    if (!('webkitSpeechRecognition' in window)) {
+      addTodoViaSpeech.style.display = 'none';
+    } else {
+      addTodoForm.style.display = 'none';
+      speechButton.style.display = 'none';
 
-    //   recognition = new webkitSpeechRecognition();
-    //   recognition.continuous = true;
-    //   recognition.interimResults = true;
-    //   recognition.lang = speechLang;
-    //   recognition.maxAlternatives = 1;
+      recognition = new webkitSpeechRecognition();
+      recognition.continuous = true;
+      recognition.interimResults = true;
+      recognition.lang = remote.getGlobal('sharedObj').speechLang;
+      recognition.maxAlternatives = 1;
 
-    //   // Listening
-    //   recognition.onstart = () => {
-    //     speechImage.src = '../img/microphone_on.svg';
-    //   };
+      // Listening
+      recognition.onstart = () => {
+        // None
+      };
 
-    //   // Done
-    //   recognition.onend = () => {
-    //     speechImage.src = '../img/microphone_off.svg';
-    //   };
+      // Api Disconnected
+      recognition.onend = () => {
+        endRecognition();
+      };
 
-    //   // Get Result
-    //   recognition.onresult = (event) => {
-    //     console.log('aaaaaaaaa')
-    //     if (typeof(event.results) === 'undefined') {
-    //       recognition.stop();
-    //       return;
-    //     }
+      // Get Result
+      recognition.onresult = (event) => {
+        if (typeof (event.results) === 'undefined') {
+          endRecognition();
+          return;
+        }
+        for (var i = event.resultIndex; i < event.results.length; ++i) {
+          if (event.results[i].isFinal) {
+            speechP.textContent = event.results[i][0].transcript;
+            endRecognition();
+          } else {
+            speechP.textContent = event.results[i][0].transcript;
+          }
+        }
+      };
 
-    //     for (var i = event.resultIndex; i < event.results.length; ++i) {
-    //       if (event.results[i].isFinal) {
-    //         console.log("final results: " + event.results[i][0].transcript);
-    //       } else {
-    //         console.log("interim results: " + event.results[i][0].transcript);
-    //       }
-    //     }
-    //   };
+      // Handle Error
+      recognition.onerror = function (e) {
+        recognition.stop();
+        console.error(e);
+      }
 
-    //   // Handle Error
-    //   recognition.onerror = function(e) {
-    //     recognition.stop();
-    //     console.error(e);
-    //   }
+    }
 
-    // }
+    // Display a speech text
+    speechImage.addEventListener('click', (event) => {
+      if (isListening) {
+        endRecognition();
+      } else {
+        startRecognition();
+      }
+    });
 
-    // // Add new todo on speech
-    // addTodoViaSpeech.addEventListener('click', (event) => {
-    //   recognition.start();
-    // });
+    // Add a new todo on speech
+    speechButton.addEventListener('click', (event) => {
+      ipcRenderer.send('todo:add', speechP.textContent);
+    });
 
-    // Add new todo on form
+    function startRecognition() {
+      speechImage.src = '../img/microphone_on.svg';
+      speechP.textContent = '';
+      speechButton.style.display = 'none';
+      recognition.start();
+      isListening = true;
+    }
+
+    function endRecognition() {
+      recognition.stop();
+      speechImage.src = '../img/microphone_off.svg';
+      speechButton.style.display = 'block';
+      isListening = false;
+    }
+
+    // Add a new todo on form
     addTodoForm.addEventListener('submit', (event) => {
       event.preventDefault();
 
       const { value } = document.querySelector('input');
       ipcRenderer.send('todo:add', value);
     });
-
   </script>
 </body>
+
 </html>

@@ -1,14 +1,15 @@
 body {
-  background-color: rgba(255, 199, 0, 0.10);
+  background-color: rgba(255, 199, 0, 0.1);
 }
 
+/* MainWindow */
 .window-main {
   margin-left: 40px;
   margin-right: 40px;
 }
 .todo-list {
   word-break: break-all;
-  line-height:2.0em;
+  line-height: 2em;
 }
 .todo-item {
   font-size: 25px;

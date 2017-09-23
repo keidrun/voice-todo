@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="../vendors/iconfont/material-icons.css">
@@ -8,10 +9,11 @@
   <link rel="stylesheet" href="../css/todo-window.css">
   <title>Voice Todos !</title>
 </head>
+
 <body>
   <div class="window-main">
 
-    <h2 class="animated rubberBand">Voice Todos !</h1>
+    <h2 class="animated rubberBand">Voice Todos !</h2>
 
     <button id="add-todo" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Add</button>
     <button id="clear-all" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Clear All</button>
@@ -33,7 +35,7 @@
   <script defer src="../vendors/js/material.min.js"></script>
   <script>
     const electron = require('electron');
-    const { ipcRenderer } = electron;
+    const { ipcRenderer, remote } = electron;
 
     const list = document.querySelector('ul#todo-list');
     const speechLangList = document.querySelectorAll('div#speech-lang-select ul li');
@@ -41,9 +43,11 @@
     const clearAll = document.getElementById('clear-all');
     const speechAll = document.getElementById('speech-all');
 
-    const speechLangMap = { en_us: { lang: 'en-US', name: 'English(US)' },
-                            en_gb: { lang: 'en-GB', name: 'English(UK)' },
-                            ja_jp: { lang: 'ja-JP', name: 'Japanese' }};
+    const speechLangMap = {
+      en_us: { lang: 'en-US', name: 'English(US)' },
+      en_gb: { lang: 'en-GB', name: 'English(UK)' },
+      ja_jp: { lang: 'ja-JP', name: 'Japanese' }
+    };
     let speechLang = speechLangMap['en_us'].lang;
 
     // Do when this window began.
@@ -52,11 +56,11 @@
 
     // Initialize select box of languages.
     function initSelecBox() {
-      speechLangList.forEach((lang)=> {
+      speechLangList.forEach((lang) => {
         lang.addEventListener('click', (event) => {
           const lang = event.target;
           const text = document.createTextNode(lang);
-          speechLang = speechLangMap[lang.id].lang;
+          speechLang = remote.getGlobal('sharedObj').speechLang = speechLangMap[lang.id].lang;
           document.querySelector('input#speech-lang').value = speechLangMap[lang.id].name;
         });
       });
@@ -75,9 +79,9 @@
     // Save todos.
     function saveData() {
       const todos = Array.from(document.querySelectorAll('ul#todo-list li'))
-                      .map((todo) => {
-                        return todo.firstChild.nodeValue;
-                      });
+        .map((todo) => {
+          return todo.firstChild.nodeValue;
+        });
       ipcRenderer.send('data:save', todos);
     }
 
@@ -144,26 +148,26 @@
     // Speech todos.
     if (!('SpeechSynthesisUtterance' in window)) {
       // Disable speech button.
-      speechAll.style.display='none';
+      speechAll.style.display = 'none';
     }
     const synth = window.speechSynthesis;
     speechAll.addEventListener('click', (event) => {
       // Cancel when doble click.
-      if ( synth.speaking ) {
+      if (synth.speaking) {
         synth.cancel();
         return;
       }
       const todos = Array.from(document.querySelectorAll('ul#todo-list li'))
-                      .map((todo) => {
-                        return todo.firstChild.nodeValue;
-                      });
+        .map((todo) => {
+          return todo.firstChild.nodeValue;
+        });
       todos.forEach((todo) => {
         const message = new SpeechSynthesisUtterance(todo);
         message.lang = speechLang;
         synth.speak(message);
       });
     });
-
   </script>
 </body>
+
 </html>

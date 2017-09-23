@@ -1,22 +1,26 @@
-const electron = require('electron');
+const electron = require("electron");
 const { BrowserWindow, app } = electron;
 
 class MainWindow extends BrowserWindow {
-  constructor(url) {
-    super({
+  constructor(url, env) {
+    const range = {
       width: 350,
-      height: 600,
-      minWidth: 350,
-      maxWidth: 350
-    });
+      height: 600
+    };
+    if (env === "production") {
+      range.push({
+        minWidth: 350,
+        maxWidth: 350
+      });
+    }
+    super(range);
     this.loadURL(url);
-    this.on('closed', this.onClosed.bind(this));
+    this.on("closed", this.onClosed.bind(this));
   }
 
   onClosed() {
     app.quit();
   }
-
 }
 
 module.exports = MainWindow;

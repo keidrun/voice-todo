@@ -1,5 +1,5 @@
-const electron = require('electron');
-const { BrowserWindow, app } = electron;
+const electron = require("electron");
+const { BrowserWindow } = electron;
 
 class AutorWindow extends BrowserWindow {
   constructor(url) {
@@ -9,11 +9,6 @@ class AutorWindow extends BrowserWindow {
       resizable: false
     });
     this.loadURL(url);
-    this.on('closed', this.onClosed.bind(this));
-  }
-
-  onClosed() {
-    this.AutorWindow = null;
   }
 }
 

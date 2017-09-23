@@ -1,19 +1,19 @@
-const electron = require('electron');
-const { BrowserWindow, app } = electron;
+const electron = require("electron");
+const { BrowserWindow } = electron;
 
 class SubWindow extends BrowserWindow {
-  constructor(url) {
-    super({
+  constructor(url, env) {
+    const range = {
       width: 300,
-      height: 350,
-      resizable: false
-    });
+      height: 400
+    };
+    if (env === "production") {
+      range.push({
+        resizable: false
+      });
+    }
+    super(range);
     this.loadURL(url);
-    this.on('closed', this.onClosed.bind(this));
-  }
-
-  onClosed() {
-    this.SubWindow = null;
   }
 }
 
