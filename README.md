@@ -22,7 +22,7 @@ Set up
 $ git clone https://github.com/keidrun/voice-todo.git
 $ cd voice-todo
 $ touch config.js
-$ echo "GOOGLE_API_KEY='[YOUR API KEY]';" > config.js
+$ echo "exports.googleApiKey = '[YOUR API KEY]';" > config.js
 ```
 Run
 ```
