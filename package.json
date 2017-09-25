@@ -9,7 +9,7 @@
     "production": "electron .",
     "build":
       "electron-packager . --platform=darwin,win32 --arch=x64 --icon=./img/icon.icns --out=./build --overwrite",
-    "cleanup": "rm -rf ./build"
+    "clean": "rimraf build"
   },
   "keywords": [],
   "author": "Keid",
@@ -18,5 +18,8 @@
     "electron": "^1.7.5",
     "electron-packager": "^9.0.1",
     "electron-storage": "^1.0.7"
+  },
+  "devDependencies": {
+    "rimraf": "^2.6.2"
   }
 }
